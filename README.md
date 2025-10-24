@@ -25,6 +25,10 @@ To run this system, simply execute:
 python chatbot.py
 ```
 
+## RAG Evaluation
+
+This system can be evaluated using the 6 fundamental RAG metrics that measure relationships between Question (Q), Context (C), and Answer (A): Context Relevance (C|Q), Faithfulness (A|C), Answer Relevance (A|Q), Context Support Coverage (C|A), Question Answerability (Q|C), and Self-Containment (Q|A). These six dimensions comprehensively cover all possible failure modes in RAG systems ([reference](https://jxnl.co/writing/2025/05/19/there-are-only-6-rag-evals)).
+
 ## Technical Assignment Answers
 
 The `output.txt` file contains answers for all questions in the technical assignment.
