@@ -1,15 +1,5 @@
 """
 Main entry point for RAG Financial Document Analysis System
-
-This system demonstrates a production-ready RAG implementation for financial document analysis,
-showcasing best practices in document processing, vector storage, and retrieval.
-
-Key Technical Features:
-- Intelligent PDF extraction with caching layer for performance
-- Multi-modal processing (text + structured tables)
-- Vector embeddings with ChromaDB for semantic search
-- Metadata-aware retrieval for company/year filtering
-- Pydantic models for type safety and validation
 """
 
 import os
@@ -31,9 +21,6 @@ def main():
     print("\nNote: Using FinBERT embeddings for optimal financial document retrieval")
     print()
 
-    # ============================================================
-    # PHASE 1: Document Extraction & Processing
-    # ============================================================
     print("\n" + "="*70)
     print("PHASE 1: DOCUMENT EXTRACTION & PROCESSING")
     print("="*70)
@@ -46,14 +33,12 @@ def main():
     print("  - Metadata preservation (company, year, page numbers)")
     print()
 
-    # Process all PDFs with caching
     all_documents = process_all_pdfs(
         data_folder=DATA_FOLDER,
         use_cache=True,
         cache_dir=CACHE_DIR
     )
 
-    # Display extraction statistics
     print(f"\n{'='*70}")
     print("EXTRACTION COMPLETE")
     print(f"{'='*70}")
@@ -73,9 +58,6 @@ def main():
     print("-"*70)
     print(f"{'TOTAL':<22} {total_elements:<10} {total_tables:<8}")
 
-    # ============================================================
-    # PHASE 2: RAG Pipeline - Vector Store Creation
-    # ============================================================
     print("\n\n" + "="*70)
     print("PHASE 2: RAG PIPELINE - VECTOR STORE CREATION")
     print("="*70)
@@ -87,16 +69,12 @@ def main():
     print("  - Metadata filtering for company/year-specific queries")
     print()
 
-    # Build RAG pipeline
     index = build_rag_pipeline(all_documents, force_rebuild=False)
 
     print(f"\n{'='*70}")
     print("VECTOR STORE READY")
     print(f"{'='*70}")
 
-    # ============================================================
-    # PHASE 3: System Ready
-    # ============================================================
     print("\n\n" + "="*70)
     print("SYSTEM INITIALIZATION COMPLETE")
     print("="*70)
@@ -131,7 +109,6 @@ def main():
 if __name__ == "__main__":
     from dotenv import load_dotenv
     load_dotenv()
-    # Set OpenAI API key if not already set
     if not os.getenv("OPENAI_API_KEY"):
         print("\nWarning: OPENAI_API_KEY not set in environment")
         print("Please set it via: export OPENAI_API_KEY='your-key-here'")

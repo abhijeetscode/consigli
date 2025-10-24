@@ -10,7 +10,6 @@ import torch
 def get_device():
     """
     Auto-detect best available device for embeddings
-    Priority: CUDA (NVIDIA GPU) > MPS (Apple Silicon) > CPU
     """
     if torch.cuda.is_available():
         return "cuda"
@@ -20,17 +19,14 @@ def get_device():
         return "cpu"
 
 
-# Project paths
 PROJECT_ROOT = Path(__file__).parent
 DATA_FOLDER = str(PROJECT_ROOT / "Data")
 CACHE_DIR = str(PROJECT_ROOT / "cache")
 VECTOR_STORE_DIR = str(PROJECT_ROOT / "chroma_db")
 WARMUP_CACHE_DIR = str(PROJECT_ROOT / "warmup_cache")
 
-# Companies to process
 COMPANIES = ["BMW", "Ford", "Tesla"]
 
-# PDF extraction settings with chunking by title
 PDF_EXTRACTION = {
     "strategy": "hi_res",
     "extract_images_in_pdf": False,
@@ -42,50 +38,40 @@ PDF_EXTRACTION = {
     "use_cache": True,
 }
 
-# LlamaIndex chunking settings
-# Larger chunks capture more context for financial data
 CHUNKING_CONFIG = {
     "chunk_size": 3000,  
     "chunk_overlap": 100,  
     "separator": " ",
 }
 
-# Vector store settings
 VECTOR_STORE_CONFIG = {
     "collection_name": "financial_docs",
-    "similarity_top_k": 5,  # Retrieve more chunks for comprehensive multi-company context
+    "similarity_top_k": 5,
 }
 
-# Embedding model settings
-# Using OpenAI embeddings for best retrieval quality
 EMBEDDING_CONFIG = {
     "provider": "openai",
-    "model_name": "text-embedding-3-small",  # High quality, cost effective
+    "model_name": "text-embedding-3-small",
 }
 
-# OpenAI settings (for LLM generation, not embeddings)
 OPENAI_CONFIG = {
     "model": "gpt-4",
     "temperature": 0,
 }
 
-# Environment variables
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-# Query engine settings
 QUERY_ENGINE_CONFIG = {
-    "use_query_refinement": False,  # Disabled for consistency
+    "use_query_refinement": False,
     "verbose": True,
 }
 
-# Chatbot settings
 CHATBOT_CONFIG = {
-    "chat_mode": "condense_question",  # or "context"
+    "chat_mode": "condense_question",
     "verbose": True,
-    "use_query_refinement": False,  # Disabled for consistency
+    "use_query_refinement": False,
 }
 
-# Warm-up question cache settings
 WARMUP_CACHE_CONFIG = {
     "cache_file": str(PROJECT_ROOT / "warmup_cache" / "warmup_answers.json"),
     "enabled": True,
