@@ -1,6 +1,5 @@
 """
 Document Processor Module
-Handles PDF extraction with caching support for text and tables
 """
 
 from unstructured.partition.pdf import partition_pdf  
@@ -124,16 +123,13 @@ def extract_pdf_elements(
     if not os.path.exists(pdf_path):
         raise FileNotFoundError(f"PDF not found: {pdf_path}")
 
-    # Try to load from cache first
     if use_cache:
         cached_elements = load_elements_from_cache(pdf_path, cache_dir)
         if cached_elements is not None:
-            # Filter out Image elements and separate texts from tables
             texts = [el for el in cached_elements if el["type"] not in ["Table", "Image"]]
             tables = [el for el in cached_elements if el["type"] == "Table"]
             return texts, tables
 
-    # Extract from PDF with chunking by title
     from config import PDF_EXTRACTION
 
     elements = partition_pdf(
@@ -147,19 +143,14 @@ def extract_pdf_elements(
         combine_text_under_n_chars=PDF_EXTRACTION["combine_text_under_n_chars"],
     )
 
-    # Save to cache
     save_elements_to_cache(elements, pdf_path, cache_dir) # type: ignore
 
-    # Categorize elements
-    # With chunking_strategy, most elements become CompositeElement
-    # But some Table elements might be preserved separately
     texts = []
     tables = []
 
     for element in elements:
         element_type = str(type(element).__name__)
         
-        # Skip Image elements
         if "Image" in element_type:
             continue
             
@@ -177,10 +168,8 @@ def extract_pdf_elements(
                 "filetype": getattr(metadata_obj, 'filetype', None),
             }
 
-        # Check for Table elements (preserved separately from chunking)
         if "Table" in element_type:
             tables.append(element_data)
-        # Other text elements (Title, NarrativeText, etc.)
         else:
             texts.append(element_data)
 
@@ -225,7 +214,6 @@ def process_all_pdfs(
     companies = COMPANIES
     all_documents = {}
 
-    # Process company annual reports
     for company in companies:
         company_folder = os.path.join(data_folder, company)
 
@@ -262,8 +250,5 @@ def process_all_pdfs(
                 )
             )
 
-    # Note: news.pdf is intentionally omitted
-    # Using FinBERT embeddings optimized for financial documents only
-    # All assignment queries focus on financial metrics from annual reports
 
     return all_documents

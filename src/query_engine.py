@@ -1,6 +1,5 @@
 """
 Query Engine Module
-Handles query refinement, retrieval, and answer generation
 """
 
 from llama_index.core import PromptTemplate
@@ -12,7 +11,6 @@ from config import OPENAI_CONFIG, VECTOR_STORE_CONFIG
 import re
 
 
-# Query refinement prompt for financial domain with ambiguity detection
 QUERY_REFINEMENT_PROMPT = """You are a financial analyst assistant.
 Your task is to analyze user queries about automotive company financial data (BMW, Ford, Tesla).
 
@@ -60,7 +58,6 @@ User Query: {query}
 Response:"""
 
 
-# Answer generation prompt for financial analysis
 FINANCIAL_QA_PROMPT = """You are a financial analyst specializing in the automotive sector.
 Use the provided context from annual reports to answer questions accurately.
 
@@ -140,7 +137,6 @@ def create_multi_company_retriever(index, query: str, similarity_top_k: int):
     """
     companies = extract_companies_from_query(query)
 
-    # If no specific companies mentioned or only one, use standard retrieval
     if len(companies) <= 1:
         retriever = VectorIndexRetriever(
             index=index,
@@ -148,12 +144,10 @@ def create_multi_company_retriever(index, query: str, similarity_top_k: int):
         )
         return retriever.retrieve(query)
 
-    # For multi-company queries, retrieve from each company separately
     all_nodes = []
-    nodes_per_company = max(similarity_top_k // len(companies), 5)  # At least 5 per company
+    nodes_per_company = max(similarity_top_k // len(companies), 5)
 
     for company in companies:
-        # Create metadata filter for this company
         filters = MetadataFilters(
             filters=[
                 MetadataFilter(
@@ -164,14 +158,12 @@ def create_multi_company_retriever(index, query: str, similarity_top_k: int):
             ]
         )
 
-        # Create retriever with company filter
         retriever = VectorIndexRetriever(
             index=index,
             similarity_top_k=nodes_per_company,
             filters=filters
         )
 
-        # Retrieve nodes for this company
         company_nodes = retriever.retrieve(query)
         all_nodes.extend(company_nodes)
 
@@ -212,30 +204,23 @@ def create_query_engine(index, use_query_refinement: bool = True):
     Returns:
         Configured query engine
     """
-    # Configure LLM
     llm = OpenAI(
         model=OPENAI_CONFIG["model"],
         temperature=OPENAI_CONFIG["temperature"]
     )
 
-    # Configure retriever
     retriever = VectorIndexRetriever(
         index=index,
         similarity_top_k=VECTOR_STORE_CONFIG["similarity_top_k"]
     )
-
-    # Create custom QA prompt
     qa_prompt = PromptTemplate(FINANCIAL_QA_PROMPT)
 
-    # Create query engine
     query_engine = index.as_query_engine(
         llm=llm,
         text_qa_template=qa_prompt,
         similarity_top_k=VECTOR_STORE_CONFIG["similarity_top_k"],
         verbose=True
     )
-
-    # Wrap with query refinement if enabled
     if use_query_refinement:
         return QueryEngineWithRefinement(query_engine, llm)
     else:
@@ -262,16 +247,12 @@ class QueryEngineWithRefinement:
             Query response with refined query info
         """
         print(f"\nOriginal Query: {query_str}")
-
-        # Refine query
         refined_query = refine_query(query_str, self.llm)
         print(f"Refined Query: {refined_query}")
         print("-" * 70)
 
-        # Execute refined query
         response = self.query_engine.query(refined_query)
 
-        # Add metadata about refinement
         response.metadata = response.metadata or {}
         response.metadata["original_query"] = query_str
         response.metadata["refined_query"] = refined_query
@@ -295,25 +276,21 @@ def create_chat_engine(index, use_query_refinement: bool = True, chat_mode: str 
     Returns:
         Configured chat engine
     """
-    # Configure LLM
     llm = OpenAI(
         model=OPENAI_CONFIG["model"],
         temperature=OPENAI_CONFIG["temperature"]
     )
 
-    # Create custom QA prompt
     qa_prompt = PromptTemplate(FINANCIAL_QA_PROMPT)
 
-    # Create chat engine with memory and increased similarity_top_k for multi-company queries
     chat_engine = index.as_chat_engine(
         llm=llm,
-        chat_mode=chat_mode,  # Use specified chat mode
+        chat_mode=chat_mode,
         text_qa_template=qa_prompt,
         similarity_top_k=VECTOR_STORE_CONFIG["similarity_top_k"],
         verbose=True
     )
 
-    # Wrap with query refinement if enabled
     if use_query_refinement:
         return ChatEngineWithRefinement(chat_engine, llm, index)
     else:
@@ -344,17 +321,14 @@ class ChatEngineWithRefinement:
         """
         print(f"\nUser: {message}")
 
-        # Refine query
         refinement_result = refine_query(message, self.llm)
 
-        # Check if clarification is needed
         if "CLARIFICATION_NEEDED:" in refinement_result:
             clarification = refinement_result.split("CLARIFICATION_NEEDED:")[1].strip()
             print(f"Clarification needed")
             print("-" * 70)
             return ("CLARIFICATION", clarification)
 
-        # Extract refined query
         if "REFINED_QUERY:" in refinement_result:
             refined_message = refinement_result.split("REFINED_QUERY:")[1].strip()
         else:
@@ -363,7 +337,6 @@ class ChatEngineWithRefinement:
         print(f"Refined: {refined_message}")
         print("-" * 70)
 
-        # Execute chat
         response = self.chat_engine.chat(refined_message)
 
         return response

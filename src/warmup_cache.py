@@ -1,8 +1,5 @@
 """
 Warm-up Question Cache Module
-
-Handles caching and retrieval of warm-up question answers to improve
-chatbot initialization performance and reduce API calls.
 """
 
 import json
@@ -55,7 +52,6 @@ class WarmupCache:
         """
         Save cache data to file
         """
-        # Ensure cache directory exists
         cache_dir = os.path.dirname(self.cache_file)
         os.makedirs(cache_dir, exist_ok=True)
         
@@ -157,7 +153,7 @@ class WarmupCache:
             "valid": total_answers > 0,
             "total_answers": total_answers,
             "created_at": self.cache_data.get("created_at"),
-            "age_days": None  # No longer tracking age
+            "age_days": None
         }
     
     def is_available(self) -> bool:

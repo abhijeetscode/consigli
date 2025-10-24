@@ -1,6 +1,5 @@
 """
 RAG Pipeline Module
-Converts extracted documents to LlamaIndex format and creates vector store
 """
 
 from llama_index.core import Document, VectorStoreIndex, StorageContext
@@ -29,7 +28,6 @@ def convert_to_llamaindex_documents(
     llamaindex_docs = []
 
     for doc_key, proc_doc in processed_docs.items():
-        # Convert text elements
         for text_elem in proc_doc.texts:
             doc = Document(
                 text=text_elem["text"],
@@ -45,7 +43,6 @@ def convert_to_llamaindex_documents(
             )
             llamaindex_docs.append(doc)
 
-        # Convert table elements
         for table_elem in proc_doc.tables:
             doc = Document(
                 text=table_elem["text"],
@@ -80,15 +77,10 @@ def create_vector_store_index(
     Returns:
         VectorStoreIndex ready for querying
     """
-    # Initialize ChromaDB client
     chroma_client = chromadb.PersistentClient(path=persist_dir)
     chroma_collection = chroma_client.get_or_create_collection(collection_name)
-
-    # Create vector store
     vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
     storage_context = StorageContext.from_defaults(vector_store=vector_store)
-
-    # Configure embeddings based on provider
     print(f"Loading embedding model: {EMBEDDING_CONFIG['model_name']}")
     if EMBEDDING_CONFIG["provider"] == "openai":
         embed_model = OpenAIEmbedding(
@@ -100,8 +92,6 @@ def create_vector_store_index(
             device=EMBEDDING_CONFIG.get("device", "cpu")
         )
 
-    # No additional chunking needed - Unstructured handles it during PDF extraction
-    # Create index without text splitter
     index = VectorStoreIndex.from_documents(
         documents,
         storage_context=storage_context,
@@ -131,22 +121,18 @@ def load_existing_index(
     """
     import os
 
-    # Check if vector store directory exists
     if not os.path.exists(persist_dir):
         return None
 
     chroma_client = chromadb.PersistentClient(path=persist_dir)
 
-    # Try to get collection - return None if doesn't exist
     try:
         chroma_collection = chroma_client.get_collection(collection_name)
     except Exception:
-        # Collection doesn't exist yet - this is expected on first run
         return None
 
     vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
 
-    # Configure embeddings based on provider
     if EMBEDDING_CONFIG["provider"] == "openai":
         embed_model = OpenAIEmbedding(
             model=EMBEDDING_CONFIG["model_name"]
@@ -179,7 +165,6 @@ def build_rag_pipeline(
     Returns:
         VectorStoreIndex ready for querying
     """
-    # Try to load existing index
     if not force_rebuild:
         print("Checking for existing vector store...")
         existing_index = load_existing_index()
@@ -190,11 +175,9 @@ def build_rag_pipeline(
     print("Building new vector store...")
     print(f"Converting {len(processed_docs)} documents to LlamaIndex format...")
 
-    # Convert documents
     llamaindex_docs = convert_to_llamaindex_documents(processed_docs)
     print(f"✓ Converted to {len(llamaindex_docs)} LlamaIndex documents")
 
-    # Create vector store index
     print("Creating vector embeddings (this may take a few minutes)...")
     index = create_vector_store_index(llamaindex_docs)
     print("✓ Vector store created successfully")

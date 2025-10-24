@@ -1,8 +1,5 @@
 """
 Simple Interactive Chatbot for Financial Document Analysis
-
-Ask questions about BMW, Ford, and Tesla financial performance.
-Supports follow-up questions with conversation memory.
 """
 
 import os
@@ -85,7 +82,6 @@ def main():
     """
     import argparse
     
-    # Parse command line arguments
     parser = argparse.ArgumentParser(description="Financial Analysis Chatbot")
     parser.add_argument("--no-cache", action="store_true",
                        help="Skip using warm-up cache (generate fresh answers)")
@@ -116,8 +112,6 @@ def main():
         print("        Vector store ready")
 
         print("  [3/3] Creating chat engine...")
-        # Use "context" mode for warm-up - doesn't condense questions, keeps them as-is
-        # This ensures general questions stay general (e.g., "all companies" not "BMW only")
         chat_engine = create_chat_engine(
             index,
             use_query_refinement=False,
@@ -129,14 +123,12 @@ def main():
         print(f"\nInitialization failed: {e}")
         sys.exit(1)
 
-    # Warm-up phase: Prime the context with document structure analysis
     print("\n" + "="*70)
     print("ANALYZING DOCUMENT STRUCTURE")
     print("="*70)
     print("\nInitializing context with warm-up queries...\n")
 
     warmup_questions = [
-        # Most important questions for context building
         "List the main financial metrics available across these reports.",
         "What companies are covered in these financial documents?",
         "What years are covered in these financial reports?",
@@ -144,12 +136,10 @@ def main():
         "What specific sustainability and CO2 emission reduction goals are outlined by BMW or BMW Group, Ford, and Tesla?"
     ]
 
-    # Initialize warm-up cache
     warmup_cache = create_warmup_cache()
     warmup_responses = []
     
     
-    # Check cache availability (unless --no-cache is specified)
     use_cache = not args.no_cache and WARMUP_CACHE_CONFIG["enabled"]
     
     if use_cache:
@@ -165,13 +155,11 @@ def main():
     else:
         print("Cache disabled, generating fresh answers...\n")
 
-    # Get cached answers for all questions (if cache is enabled)
     if use_cache:
         cached_answers = warmup_cache.get_cached_answers(warmup_questions)
         cached_count = len([a for a in cached_answers.values() if a])
         total_questions = len(warmup_questions)
         
-        # Use cache if we have at least 80% of the questions cached
         cache_threshold = 0.8
         if cached_count >= total_questions * cache_threshold:
             print(f"✓ Using cached warm-up answers ({cached_count}/{total_questions} questions cached)")
@@ -181,37 +169,30 @@ def main():
                 cached_answer = cached_answers[question]
                 
                 if cached_answer is not None:
-                    # Use cached answer
                     print(f"[{i}/{total_questions}] {question}")
                     print(f"     ✓ Using cached answer")
                     warmup_responses.append((question, cached_answer))
                     print()
                 else:
-                    # Skip missing questions if we have enough cached ones
                     print(f"[{i}/{total_questions}] {question}")
                     print(f"     ⚠ Skipping (not in cache)")
                     print()
             
-            # No questions to process
             questions_to_process = []
         else:
             print(f"⚠ Insufficient cache coverage ({cached_count}/{total_questions} questions), generating fresh answers...\n")
             questions_to_process = [(i, q) for i, q in enumerate(warmup_questions, 1)]
     else:
-        # Process all questions if cache is disabled
         questions_to_process = [(i, q) for i, q in enumerate(warmup_questions, 1)]
 
-    # Process questions that weren't cached
     if questions_to_process:
         print(f"Processing {len(questions_to_process)} questions that need fresh answers...\n")
 
         for original_index, question in questions_to_process:
             try:
                 print(f"[{original_index}/{len(warmup_questions)}] {question}")
-                # Chat engine has query refinement disabled during warm-up
                 response = chat_with_retry(chat_engine, question)
 
-                # Check if it's a clarification (shouldn't happen with these questions)
                 if isinstance(response, tuple) and response[0] == "CLARIFICATION":
                     print(f"     Skipping (clarification requested)")
                     continue
@@ -219,7 +200,6 @@ def main():
                 answer = str(response)
                 warmup_responses.append((question, answer))
 
-                # Write answer immediately to cache (if cache is enabled)
                 if use_cache:
                     warmup_cache.store_answer(question, answer)
                     print(f"     ✓ Context updated & cached\n")
@@ -230,31 +210,25 @@ def main():
                 print(f"     ⚠ Warning: {e}")
                 continue
 
-    # Display summary to user
     print("\n" + "="*70)
     print("DOCUMENT CONTEXT SUMMARY")
     print("="*70)
     
-    # Show cache statistics
     if use_cache:
         final_cache_stats = warmup_cache.get_cache_stats()
         print(f"\nCache Status: {final_cache_stats['total_answers']} answers cached")
         print()
 
     if warmup_responses:
-        # Show companies covered
         if len(warmup_responses) > 0:
             print(f"\nCompanies: {warmup_responses[0][1]}")
 
-        # Show years covered
         if len(warmup_responses) > 1:
             print(f"\nYears: {warmup_responses[1][1]}")
 
-        # Show key metrics available
         if len(warmup_responses) > 2:
             print(f"\nKey Metrics: {warmup_responses[2][1]}")
 
-        # Show data quality notes
         if len(warmup_responses) > 10:
             print(f"\nData Quality Notes: {warmup_responses[10][1]}\n")
     else:
@@ -264,14 +238,11 @@ def main():
     print("\nContext loaded. The assistant now has background knowledge")
     print("about the available data and can answer your questions more accurately.\n")
 
-    # Now switch to a new chat engine with condense_question mode and query refinement
-    # for interactive user queries. We don't preserve warm-up history as it was just
-    # for priming the vector store retrieval, not for conversation context.
     print("Setting up interactive chat mode...")
     chat_engine = create_chat_engine(
         index,
         use_query_refinement=CHATBOT_CONFIG["use_query_refinement"],
-        chat_mode="condense_question"  # Condenses chat history for better follow-ups
+        chat_mode="condense_question"
     )
     print("Interactive mode ready.\n")
 
@@ -287,7 +258,7 @@ def main():
     print("\nCommand Line Options:")
     print("  --no-cache - Skip using cache (generate fresh answers)\n")
 
-    clarification_context = None  # Store context during clarification
+    clarification_context = None
 
     while True:
         try:
@@ -317,23 +288,19 @@ def main():
                 continue
 
 
-            # If we're in clarification mode, combine with previous context
             if clarification_context:
                 combined_input = f"{clarification_context} {user_input}"
                 print(f"Combined query: {combined_input}")
-                clarification_context = None  # Clear after using
+                clarification_context = None
                 user_input = combined_input
 
             response = chat_with_retry(chat_engine, user_input)
 
-            # Check if response is a clarification request
             if isinstance(response, tuple) and response[0] == "CLARIFICATION":
                 print(f"\nAssistant: {response[1]}\n")
-                # Store the original query for context
                 clarification_context = user_input
                 continue
 
-            # Normal response
             print(f"\nAssistant: {response}\n")
 
             if hasattr(response, 'source_nodes') and response.source_nodes:
