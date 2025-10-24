@@ -1,0 +1,180 @@
+You: What were the growth trends for BMW's financial performance from 2020 to 2023?
+Querying with: Can you describe the growth trends in BMW's financial performance from 2020 to 2023?
+
+Assistant: Based on the provided context, the following financial performance trends for BMW from 2020 to 2023 can be observed:
+
+2020:
+- No specific financial data is provided for the year 2020 in the context.
+
+2021:
+- BMW reported a gross profit of euro 155.7 million.
+- The company had a positive interest margin of euro 26.3 million.
+- The company's balance sheet total was euro 41,488 million.
+- Debt securities were euro 31,312 million.
+- Liabilities due to BMW Group companies were euro 6,287 million.
+
+2022:
+- BMW reported a significant increase in gross profit to euro 550.6 million.
+- The positive interest margin slightly increased to euro 26.8 million.
+- The company's balance sheet total increased to euro 43,221 million.
+- Debt securities declined to euro 24,158 million.
+- Liabilities due to BMW Group companies increased to euro 14,112 million.
+
+2023:
+- BMW reported a gross loss of euro 507.0 million, a significant decrease from the previous year.
+- The interest margin slightly decreased to euro 26.2 million.
+- The company's balance sheet total decreased to euro 42,280 million.
+- Debt securities further declined to euro 22,861 million.
+- Liabilities due to BMW Group companies increased to euro 15,631 million.
+
+In summary, BMW's financial performance showed growth in 2022 with an increase in gross profit and balance sheet total. However, in 2023, the company experienced a decrease in gross profit, interest margin, and balance sheet total. The company's debt securities also declined over the years, while liabilities due to BMW Group companies increased.
+
+Sources:
+  [1] BMW_Annual_Report_2022.pdf - BMW (2022)
+  [2] BMW_Annual_Report_2021.pdf - BMW (2021)
+
+
+
+You: What was BMW's total revenue in 2023?
+Querying with: What was BMW's total revenue in 2023?
+
+Assistant: The total revenue for BMW in 2023 is not provided in the provided context.
+
+Sources:
+  [1] BMW_Annual_Report_2021.pdf - BMW (2021)
+  [2] BMW_Annual_Report_2023.pdf - BMW (2023)
+
+You: How much revenue did Tesla generate in 2023?
+Querying with: What was Tesla's total revenue in 2023?
+
+Assistant: Tesla's total revenue in 2023 was $96,773 million.
+
+Sources:
+  [1] Tesla_Annual_Report_2023.pdf - Tesla (2023)
+  [2] Tesla_Annual_Report_2023.pdf - Tesla (2023)
+
+You: What was Ford's revenue for the year 2020?
+Querying with: What was the total revenue for Ford in 2020?
+
+Assistant: The total revenue for Ford in 2020 was $127,144 million.
+
+Sources:
+  [1] Ford_Annual_Report_2021.pdf - Ford (2021)
+  [2] Ford_Annual_Report_2021.pdf - Ford (2021)
+
+You: Can you provide the revenue figures for BMW in 2017?
+Querying with: What was the total revenue for BMW in the year 2017?
+
+Assistant: The total revenue for BMW in the year 2017 was €98,282 million.
+
+Sources:
+  [1] BMW_Annual_Report_2021.pdf - BMW (2021)
+  [2] BMW_Annual_Report_2021.pdf - BMW (2021)
+
+You: What key economic factors influenced Ford's performance in 2021?
+Querying with: What were the key economic factors that influenced Ford's financial performance in 2021?
+
+Assistant: In 2021, Ford's financial performance was influenced by several key economic factors:
+
+1. Special Items: The year-over-year increase of $19.2 billion in net income/(loss) in 2021 includes the effect of special items, including the Rivian IPO and mark-to-market gain.
+
+2. Automotive EBIT and Ford Credit EBT: Higher Automotive EBIT and Ford Credit EBT also contributed to the increase in net income/(loss) and Company adjusted EBIT.
+
+3. Semiconductor Shortage: The global semiconductor shortage had a significant impact on Ford's financial performance in 2021. It resulted in lower wholesale receivables due to lower dealer inventories and lower volume for Ford Credit.
+
+4. Used Vehicle Demand: Ford Credit’s U.S. 36-month auction values for off-lease vehicles were up 26% from 2020, reflecting strong demand for used vehicles, including the impact of lower new vehicle production due to the semiconductor shortage.
+
+5. Operating Lease Residual Performance and Credit Loss Reserve: Ford Credit’s 2021 EBT increased $2,109 million from 2020, explained primarily by favorable operating lease residual performance, the non-recurrence of the 2020 increase to the credit loss reserve due to deterioration in macroeconomic conditions related to COVID-19, and reductions in the credit loss reserve in 2021.
+
+6. Interest Expense: Ford's full year 2021 interest expense on Company debt excluding Ford Credit was $1,803 million, $154 million higher than in 2020, primarily explained by higher U.S. unsecured debt interest expense.
+
+7. Tax Benefits: Ford's Provision for/(Benefit from) income taxes for full year 2021 was a $130 million benefit, resulting in an effective tax rate of negative 0.7%. This includes a benefit of $2.9 billion to recognize deferred tax assets resulting from changes in their global tax structure and a $918 million benefit from the reversal of U.S. valuation allowances.
+
+8. Capital Spending: Capital spending was $6.2 billion in 2021, $0.5 billion higher than a year ago.
+
+9. Working Capital and Timing Differences: The full year 2021 working capital impact was $1.7 billion negative, driven by higher inventory. All other and timing differences were negative $3.1 billion, reflecting assorted differences including differences between accrual-based EBIT and the associated cash flows.
+
+Sources:
+  [1] Ford_Annual_Report_2021.pdf - Ford (2021)
+  [2] Ford_Annual_Report_2021.pdf - Ford (2021)
+
+You: Which Tesla product is currently in the development stage?
+Querying with: What are the current products in the development stage at Tesla?
+
+Assistant: Based on the context provided, the products currently in the development stage at Tesla as of 2023 are the "Next Generation Platform" and the "Tesla Roadster".
+
+Sources:
+  [1] Tesla_Annual_Report_2022.pdf - Tesla (2022)
+  [2] Tesla_Annual_Report_2023.pdf - Tesla (2023)
+
+You: What were BMW's profit figures for 2020 and 2023?
+Querying with: What were the profit figures for BMW in the years 2020 and 2023?
+
+Assistant: Based on the context:
+
+For the year 2020, BMW's Group net profit was €3,857 million.
+
+For the year 2023, BMW Finance N.V. reported a net loss of €394,288 thousand. 
+
+Please note that these figures are for different entities within the BMW Group and are not directly comparable.
+
+Sources:
+  [1] BMW_Annual_Report_2021.pdf - BMW (2021)
+  [2] BMW_Annual_Report_2021.pdf - BMW (2021)
+
+You: Between Tesla and Ford, which company achieved higher profits in 2022?
+Querying with: Which company had higher profits in 2022, Tesla or Ford?
+
+Assistant: The context does not provide specific profit figures for Tesla in 2022. However, for Ford, the net income for 2023 was $4.347 billion. The net income for 2022 is not provided in the context. Therefore, a direct comparison of profits between Tesla and Ford for the year 2022 cannot be made based on the provided context.
+
+Sources:
+  [1] Tesla_Annual_Report_2022.pdf - Tesla (2022)
+  [2] Ford_Annual_Report_2023.pdf - Ford (2023)
+
+You: What were Tesla's profit numbers for 2022 and 2023?
+Querying with: Can you provide the profit figures for Tesla for the years 2022 and 2023?
+
+Assistant: The context does not provide specific profit figures for Tesla for the years 2022 and 2023.
+
+Sources:
+  [1] Tesla_Annual_Report_2022.pdf - Tesla (2022)
+  [2] Tesla_Annual_Report_2023.pdf - Tesla (2023)
+
+You: Which company recorded better profitability in 2022 overall?
+Querying with: Between Tesla, Ford, and BMW, which company had the highest profitability in 2022?
+
+Assistant: The provided context only contains profitability information for Tesla in 2022. According to the context, Tesla's net income attributable to common stockholders in 2022 was $12.56 billion. There is no profitability information available for Ford and BMW in the provided context.
+
+Sources:
+  [1] Tesla_Annual_Report_2022.pdf - Tesla (2022)
+  [2] Tesla_Annual_Report_2022.pdf - Tesla (2022)
+
+You: Provide a summary of revenue figures for Tesla, BMW, and Ford over the past three
+years.
+Querying with: Can you provide a summary of the revenue figures for Tesla, BMW, and Ford over the past three years?
+
+Assistant: Based on the context provided, the revenue figures for Tesla over the past three years are as follows:
+
+- In 2021, Tesla's total revenue was $53,823 million.
+- In 2022, Tesla's total revenue increased to $81,462 million.
+- In 2023, Tesla's total revenue further increased to $96,773 million.
+
+However, the context does not provide any revenue figures for BMW and Ford.
+
+Sources:
+  [1] Tesla_Annual_Report_2023.pdf - Tesla (2023)
+  [2] Tesla_Annual_Report_2023.pdf - Tesla (2023)
+
+You: Querying with: Can you provide a summary of the revenue figures for Tesla, BMW, and Ford over the past three years?
+
+Assistant: Based on the context provided, the revenue figures for Tesla over the past three years are as follows:
+
+- In 2021, Tesla's total revenue was $53,823 million.
+- In 2022, Tesla's total revenue increased to $81,462 million.
+- In 2023, Tesla's total revenue further increased to $96,773 million.
+
+However, the context does not provide any revenue figures for BMW and Ford.
+
+Sources:
+  [1] Tesla_Annual_Report_2023.pdf - Tesla (2023)
+  [2] Tesla_Annual_Report_2023.pdf - Tesla (2023)
