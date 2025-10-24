@@ -24,3 +24,7 @@ To run this system, simply execute:
 ```bash
 python chatbot.py
 ```
+
+## Technical Assignment Answers
+
+The `output.txt` file contains answers for all questions in the technical assignment.
